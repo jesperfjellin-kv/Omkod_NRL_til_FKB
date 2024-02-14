@@ -1,0 +1,531 @@
+ SOSI-kontroll versjon 4.6C   Dato: 2022-02-14    
+ Program for kvalitetskontroll av SOSI-data 
+ 
+Filnavn:         C:\FKKOslo\PyScripts\Omkod_NRL_til_FKB\FKB-Ledning_avvik.sos
+Størrelse:       213431 tegn
+Sist oppdatert:  2024-02-14  13:25:57
+Kontrollert:     2024-02-14  15:13
+
+Listefil for definisjonsfiler: 
+                      C:\Fysak\SOSI-kontroll\Def\fkb\DEF_FKBLedning.50
+Benyttede definisjonsfiler:
+
+  Syntaksdefinisjoner C:\Fysak\SOSI-kontroll\Def\fkb\ver50\FKBLedning_d.50                                             
+                      Sist oppdatert:  2024-02-07  12:37:18
+  Syntaksdefinisjoner C:\Fysak\SOSI-kontroll\Def\fkb\..\std\SOSISTD.50                                                 
+                      Sist oppdatert:  2024-01-01  01:01:00
+  Kodeoversettelser   C:\Fysak\SOSI-kontroll\Def\fkb\..\std\KODER.50                                                   
+                      Sist oppdatert:  2023-06-06  03:00:00
+  Objektdefinisjoner  C:\Fysak\SOSI-kontroll\Def\fkb\ver50\FKBLedning_o.50                                             
+                      Sist oppdatert:  2024-02-08  02:00:00
+  Objektdefinisjoner  C:\Fysak\SOSI-kontroll\Def\fkb\ver50\FKB-felles_o.50                                             
+                      Sist oppdatert:  2023-05-05  03:00:00
+  Objektdefinisjoner  C:\Fysak\SOSI-kontroll\Def\fkb\..\std\Objektavgrensning.50                                       
+                      Sist oppdatert:  2023-08-29  03:00:00
+  Utvalgsregler       C:\Fysak\SOSI-kontroll\Def\fkb\ver50\FKBLedning_u.50                                             
+                      Sist oppdatert:  2024-02-02  02:00:00
+
+FxTell-filer          c:\fysak\sosi-kontroll\def\FxTell45.K1                                       
+                      Sist Oppdatert: 2018-05-01   03:00:00
+                      c:\fysak\sosi-kontroll\def\FxTell45.K2                                       
+                      Sist Oppdatert: 2018-05-01   03:00:00
+
+    VERTIKALAVSTAND er definert 2 ganger.
+
+FORMELL FORMATSJEKK
+===================
+
+DELKONTROLL 1.1: HODEKONTROLL
+
+
+    .HODE gruppen på fila:
+
+        .HODE
+        ..TEGNSETT  UTF-8 
+        ..TRANSPAR 
+        ...KOORDSYS  22 
+        ...ORIGO-NØ  0  0 
+        ...ENHET  0.0001 
+        ...VERT-DATUM  NN2000 
+        ..OMRÅDE 
+        ...MIN-NØ  6547898  347063 
+        ...MAX-NØ  6752633  765860 
+        ..SOSI-NIVÅ  3 
+        ..SOSI-VERSJON  5.0 
+        ..OBJEKTKATALOG  FKBLedning  5.0 
+
+    Forklaringer på noe av hodeinformasjonen:
+
+    TRANSPAR:
+        KOORDSYS: UTM sone 32 basert på EUREF89
+
+    OMRÅDE:
+
+        MIN ØST:  347063.0  MAX ØST:  765860.0
+        MIN NORD: 6547898.0  MAX NORD: 6752633.0
+
+
+DELKONTROLL 1.2: HODEKONTROLL, MULTIPLE HODER
+
+    Ingen flere HODE-grupper er funnet.
+
+
+DELKONTROLL 1.3: TEGNSETTKONTROLL
+
+    Benyttet tegnsett:            UTF-8:  Unicode 8-bit 
+    Alle tegn på fila godkjent 
+
+DELKONTROLL 1.4: SLUTTKONTROLL
+
+    .SLUTT er funnet på linje 8300.
+    Det finnes ingen linjer mellom .SLUTT og EOF.
+
+
+
+GRUPPEVIS INNHOLDSSJEKK
+=======================
+
+DELKONTROLL 2.1: SERIENUMMER
+
+    Antall grupper på fila     : 366
+    Høyeste serienummer på fila: 366
+
+
+DELKONTROLL 2.2: OMRÅDEKONTROLL
+
+    OMRÅDE DATA I FILA DEKKER:
+
+        MIN ØST:      469510.8  MAX ØST:   641829.4
+        MIN NORD:     6555174.8  MAX NORD:  6752336.1
+
+        UTSTREKN. Ø/V:172318.6  N/S:       197161.3
+        AREAL (km2):   33974.6 
+        MIN HØYDE:        10.1  MAX HØYDE:    722.8
+
+  Ingen grupper med koordinater utenfor området definert i hodet
+
+
+DELKONTROLL 2.3: SOSI-NIVÅ
+
+   Sosi-nivå på filen OK
+
+
+DELKONTROLL 2.4: NØYAKTIGHET KONTRA ENHET
+
+    Enhet oppgitt i HODE:        0.0001
+    Nøyaktighet er ikke oppgitt i HODE!
+    Benyttet test:               0.01 * nøyaktighet <= enhet <= 2 x nøyaktighet
+
+    Kombinasjoner av nøyaktighet og enhet der det er misforhold:
+
+    -------------------------------
+    Nøyaktighet     Enhet    Antall
+    -------------------------------
+             32      0.0001        11
+             35      0.0001        47
+             23      0.0001        24
+             58      0.0001         6
+             34      0.0001        21
+            300      0.0001        17
+             70      0.0001         6
+             50      0.0001        57
+             25      0.0001         3
+             48      0.0001         1
+             40      0.0001        42
+             53      0.0001        13
+              5      0.0001         1
+            200      0.0001         7
+             36      0.0001         7
+             21      0.0001         3
+             69      0.0001         2
+             80      0.0001        53
+            125      0.0001         1
+             45      0.0001        29
+             98      0.0001        15
+    -------------------------------
+
+    Totalt 366 grupper.
+
+
+DELKONTROLL 2.5.1 : HØYDEINFORMASJON
+
+    Forskjellige kombinasjoner:
+    ---------------------------------------------------------------------------------
+    Metode   Gruppe     Antall  Uten høyde            Høydeangivelse
+              Type                  NØ     NØH NØ+HØYDE  NØ+NØH NØH+HØYDE NØ+NØH+HØYDE
+    ---------------------------------------------------------------------------------
+    fot (UM) KURVE          97       0      97       0       0         0           0
+    fot (UM) PUNKT         244       0     244       0       0         0           0
+    gen (UM) KURVE           8       0       8       0       0         0           0
+    gen (UM) PUNKT           9       0       9       0       0         0           0
+    sat (UM) PUNKT           1       0       1       0       0         0           0
+    ukj (UM) PUNKT           7       7       0       0       0         0           0
+    ---------------------------------------------------------------------------------
+    Total :                366       7     359       0       0         0           0
+    ---------------------------------------------------------------------------------
+          UM = Ukjent Metode   MM = Mangler Metode
+
+
+DELKONTROLL 2.5.2 : KOMBINASJONER AV 2D OG 3D KOORDINATER
+
+    Alle grupper godkjent.
+
+
+DELKONTROLL 2.5.3 : MÅLEMETODE I FORHOLD TIL KOORDINATER
+
+    Alle grupper godkjent.
+
+
+DELKONTROLL 2.5.4 : GRUPPER MED NEGATIVE HØYDEVERDIER
+
+    Ingen negative høyder.
+
+
+DELKONTROLL 2.6 : SOSI SYNTAKS
+
+    Godkjente grupper:
+
+            -------------------
+            Gruppetype   Antall
+            -------------------
+            PUNKT           261
+            KURVE           105
+            -------------------
+            SUM:            366
+
+    Benyttet gruppeinfo:
+
+      OBJTYPE                               BELYSNING                       
+      DATAFANGSTDATO                        HREF                            
+      IDENT                                 KVALITET                        
+      LEDNINGSNETTVERKSTYPE                 MEDIUM                          
+      OPPDATERINGSDATO                      REGISTRERINGSVERSJON            
+      VERIFISERINGSDATO                     NØH                             
+      MASTEKONSTRUKSJON                     VERTIKALAVSTAND                 
+      TRASENAVN                             NØ                              
+      DRIFTSMERKING                         INFORMASJON                     
+
+
+    Benyttet punktinfo:
+
+      KP                              
+
+
+
+
+KNUTEPUNKT KONTROLL
+===================
+
+DELKONTROLL 3.1: KNUTEPUNKT STATISTIKK
+
+    -----------------------------------------------------------------
+    Knutepunktlag   Nodetype   Antall     3D     2D  2D ulik H  2D/3D
+    -----------------------------------------------------------------
+         1             1-er       126    126      0       0        0
+                       2-er        32     29      0       3        0
+                       3-er         1      1      0       0        0
+                       4-er         1      1      0       0        0
+    -----------------------------------------------------------------
+
+    Antall knutepunkt: 197
+    Antall blindnoder: 126 hvorav 0 på område kant. (omr.kant +/- 0.0 meter)
+    Antall punkt på fila: 616
+
+
+DELKONTROLL 3.2: GRUPPER SOM KAN SLÅES SAMMEN
+
+    Ingen grupper som kan slåes sammen er funnet!
+
+
+DELKONTROLL 3.3: KNYTTBARE PUNKT
+
+    Det er totalt 616 punkt på fila.
+
+    Toleranse = 0 x 0.0 meter
+    ----------------------------------------------------
+
+    Nodefordeling:
+
+    -------------------------------------------------
+    Nodetype   Antall     3D     2D  2D ulik H  2D/3D
+    -------------------------------------------------
+        2-er        4      4      0       0        0
+    -------------------------------------------------
+
+    Antall mulige knutepunkt: 8
+
+
+OBJEKT-/EGENSKAPSKONTROLL
+============================
+
+DELKONTROLL 5.1: Objekt-/egenskapskontroll
+
+    Objekter:
+
+    --------------------------------------------------------
+    Objekttypenavn                    Tilhører        Antall
+    --------------------------------------------------------
+    Mast                              FKBLEDNING         261
+    Trase                             FKBLEDNING         105
+    --------------------------------------------------------
+    Total                                                366
+
+
+
+DELKONTROLL 5.2: Geometrityper
+
+Ingen feil funnet
+
+
+DELKONTROLL 5.3: Min./maks. multiplisitet/kardinalitet
+
+Ingen feil funnet
+
+
+DELKONTROLL 5.4: Doble linjer/kurver
+
+Ingen feil/advarsler funnet
+
+
+DELKONTROLL 5.5: Flateavgrensning
+
+Ingen feil funnet
+
+
+STATISTIKK
+==========
+
+DELKONTROLL 6.1: DATAGRUPPER SPESIFISERT PÅ OBJEKTER
+
+    --------------------------------------------------------------------------
+                                                 Kvalitet              Antall
+    Objekttypenavn                    Met.  Nøy.  Synb. Hmet. Hnøy.    grupper
+    --------------------------------------------------------------------------
+    FKBLEDNING
+    Mast                                sat     5                          1
+    Mast                                fot    21                          3
+    Mast                                fot    23                         24
+    Mast                                fot    25                          3
+    Mast                                fot    32                         11
+    Mast                                fot    34                         20
+    Mast                                fot    35                         47
+    Mast                                fot    40                         17
+    Mast                                fot    45                         29
+    Mast                                fot    50                         23
+    Mast                                fot    53                          5
+    Mast                                fot    58                          6
+    Mast                                fot    69                          2
+    Mast                                fot    80                         45
+    Mast                                fot    98                          9
+    Mast                                ukj   200                          7
+    Mast                                gen   300                          9
+    Trase                               fot    34                          1
+    Trase                               fot    36                          7
+    Trase                               fot    40                         25
+    Trase                               fot    48                          1
+    Trase                               fot    50                         34
+    Trase                               fot    53                          5
+    Trase                               fot    53                          3
+    Trase                               fot    70                          6
+    Trase                               fot    80                          8
+    Trase                               fot    98                          6
+    Trase                               fot   125                          1
+    Trase                               gen   300                          8
+    --------------------------------------------------------------------------
+
+
+DELKONTROLL 6.2: ANTALL PUNKT PR LINJE/KURVE
+
+    -------------------------------------------------------------------------------------------
+                                                Antall   Antall            st
+    Objekttypenavn                    Kvalitet grupper   punkt     snitt  avvik     max     min
+    -------------------------------------------------------------------------------------------
+    FKBLEDNING
+    Trase                               fot          1        2      2.0    0.0       2       2
+    Trase                               fot          7       19      2.7    0.5       3       2
+    Trase                               fot         25       60      2.4    1.2       7       2
+    Trase                               fot          1        2      2.0    0.0       2       2
+    Trase                               fot         34      119      3.5    3.1      15       2
+    Trase                               fot          5       13      2.6    0.9       4       2
+    Trase                               fot          3       38     12.7   17.6      33       2
+    Trase                               fot          6       12      2.0    0.0       2       2
+    Trase                               fot          8       52      6.5    3.4      11       2
+    Trase                               fot          6       20      3.3    1.6       6       2
+    Trase                               fot   1      1        2      2.0    0.0       2       2
+    Trase                               gen   3      8       16      2.0    0.0       2       2
+    ------------------------------------------------------------------------------------------
+
+
+DELKONTROLL 6.3: GJENNOMSNITT LINJELENGDER
+
+    ---------------------------------------------------------------------------------------------
+                                               Antall    Total              st
+    Objekttypenavn                    Kvalitet grupper   lengde    snitt   avvik      max     min
+    ---------------------------------------------------------------------------------------------
+    FKBLEDNING
+    Trase                               fot          1      5.0      5.0     0.0      5.0     5.0
+    Trase                               fot          7    463.0     66.1   124.3    347.3    10.4
+    Trase                               fot         25   1607.7     64.3   175.4    646.5     1.9
+    Trase                               fot          1     10.1     10.1     0.0     10.1    10.1
+    Trase                               fot         34  12156.8    357.6   871.0   4161.0     4.4
+    Trase                               fot          5    792.5    158.5   143.9    383.7    41.4
+    Trase                               fot          3  11865.3   3955.1  6835.1  11847.5     5.0
+    Trase                               fot          6    974.2    162.4   158.0    319.5     4.9
+    Trase                               fot          8   6348.8    793.6   499.5   1440.8   204.6
+    Trase                               fot          6   2441.1    406.9   461.4   1188.1    10.0
+    Trase                               fot   1      1     28.2     28.2     0.0     28.2    28.2
+    Trase                               gen   3      8   1807.4    225.9    86.8    324.6    96.4
+    ---------------------------------------------------------------------------------------------
+      Linjelengder beregnet med bare N og Ø koordinater (grunnriss)
+      Alle avstander i meter.
+
+
+DELKONTROLL 6.4: PUNKTTETTHET
+
+    ---------------------------------------------------------------------------------------------
+                                                 Total   Antall            st
+    Objekttypenavn                    Kvalitet   lengde  punkt    snitt   avvik      max      min
+    ---------------------------------------------------------------------------------------------
+    FKBLEDNING
+    Trase                               fot          5.0      2     5.0     0.0      5.0      5.0
+    Trase                               fot        463.0     19    38.6    61.4    173.6      6.1
+    Trase                               fot       1607.7     60    45.9    36.5    160.7      1.9
+    Trase                               fot         10.1      2    10.1     0.0     10.1     10.1
+    Trase                               fot      12156.8    119   143.0    83.7    297.2      4.4
+    Trase                               fot        792.5     13    99.1    74.2    213.0     41.4
+    Trase                               fot      11865.3     38   339.0   210.5    370.2      5.0
+    Trase                               fot        974.2     12   162.4   158.0    319.5      4.9
+    Trase                               fot       6348.8     52   144.3    46.9    261.1    102.3
+    Trase                               fot       2441.1     20   174.4    94.0    237.6     10.0
+    Trase                               fot   1     28.2      2    28.2     0.0     28.2     28.2
+    Trase                               gen   3   1807.4     16   225.9    86.8    324.6     96.4
+    ---------------------------------------------------------------------------------------------
+      Linjelengder beregnet med bare N og Ø koordinater (grunnriss)
+      Alle avstander meter.
+
+
+DELKONTROLL 6.6: KVALITETSKODER
+
+    Gjennomgang av kvalitetskoder:
+
+    Kvalitetskode fra hode:
+
+    KVALITET er ikke oppgitt.
+
+    Andre benyttede koder:
+
+    KVALITET fot 32
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 0.32m
+    Antall       : 11 grupper.
+
+    KVALITET fot 35
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 0.35m
+    Antall       : 47 grupper.
+
+    KVALITET fot 23
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 0.23m
+    Antall       : 24 grupper.
+
+    KVALITET fot 58
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 0.58m  Målestokk: 1:2000
+    Antall       : 6 grupper.
+
+    KVALITET fot 34
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 0.34m
+    Antall       : 21 grupper.
+
+    KVALITET gen 300
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 3.00m
+    Antall       : 17 grupper.
+
+    KVALITET fot 70
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 0.70m
+    Antall       : 6 grupper.
+
+    KVALITET fot 50
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 0.50m
+    Antall       : 57 grupper.
+
+    KVALITET fot 25
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 0.25m
+    Antall       : 3 grupper.
+
+    KVALITET fot 48
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 0.48m
+    Antall       : 1 grupper.
+
+    KVALITET fot 40
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 0.40m
+    Antall       : 42 grupper.
+
+    KVALITET fot 53
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 0.53m
+    Antall       : 10 grupper.
+
+    KVALITET sat 5
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 0.05m
+    Antall       : 1 grupper.
+
+    KVALITET ukj 200
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 2.00m  Målestokk: 1:5000
+    Antall       : 7 grupper.
+
+    KVALITET fot 36
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 0.36m  Målestokk: 1:1000
+    Antall       : 7 grupper.
+
+    KVALITET fot 21
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 0.21m  Målestokk: 1:500
+    Antall       : 3 grupper.
+
+    KVALITET fot 69
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 0.69m
+    Antall       : 2 grupper.
+
+    KVALITET fot 80
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 0.80m
+    Antall       : 53 grupper.
+
+    KVALITET fot 125
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 1.25m
+    Antall       : 1 grupper.
+
+    KVALITET fot 45
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 0.45m
+    Antall       : 29 grupper.
+
+    KVALITET fot 53
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 0.53m
+    Antall       : 3 grupper.
+
+    KVALITET fot 98
+    Metode       : Ukjent
+    Nøyaktighet  : Middelfeil: 0.98m
+    Antall       : 15 grupper.
+
+
+
+
+-------------------------------------------------------------------------------
+
