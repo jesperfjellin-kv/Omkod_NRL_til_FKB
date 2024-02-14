@@ -1,11 +1,10 @@
-input_file_path = 'NRL_Avvik.sos'  
-output_file_path = 'NRL_Avvik_omkodet.sos'  
+input_file_path = 'NRL_Avvik.sos'
+output_file_path = 'NRL_Avvik_omkodet.sos'
 
 mappings = {
     "..OBJTYPE NrlLuftspenn": "..OBJTYPE Trase",
     "..OBJTYPE NrlMast": "..OBJTYPE Mast",
-    "..HØYDEREFERANSE": "..HREF",
-      
+    "..HØYDEREFERANSE": "..HREF"
 }
 
 unwanted_attributes = {
@@ -24,8 +23,9 @@ unwanted_attributes = {
     "...VERSJONID",
     "..LUFTSPENNTYPE",
     "..INFORMASJON",
-    "..LUFTFARTSHINDERLYSSETTING"
-   
+    "..LUFTFARTSHINDERLYSSETTING",
+    "..EIER",
+    "..PRODUSENT"
 }
 
 def translate_line(line, mappings):
@@ -40,80 +40,59 @@ def is_line_unwanted(line, unwanted_attributes):
             return True
     return False
 
-
-def process_and_write_object_buffer(object_buffer, output_file):
-    new_lines = ["..NETTVERKSLEDNINGSTYPE ukjent\n"]
-    
-    new_object_buffer = []
-    
-    for line in object_buffer:
-        new_object_buffer.append(line)
-        
-        if line.startswith("..OBJTYPE"):
-            new_object_buffer.extend(new_lines)
-    
-    for line in new_object_buffer:
-        if not line.endswith('\n'):
-            line += '\n'
-        output_file.write(line)
-        
-def modify_head_section(input_file_path, output_file_path):
-    head_section = []
+def read_and_modify_head_section(lines):
+    modified_lines = []
     in_head = False
     sosi_versjon_present = False
     sosi_nivå_present = False
     vert_datum_present = False
 
-    with open(input_file_path, 'r', encoding='utf-8') as infile, open(output_file_path, 'w', encoding='utf-8') as outfile:
-        for line in infile:
-            if '.HODE' in line:
-                in_head = True
-                head_section.append(line)
-                continue
-            
-            if in_head:
-                if '..SOSI-VERSJON' in line:
-                    sosi_versjon_present = True
-                    if '5.0' not in line:
-                        line = '..SOSI-VERSJON 5.0\n'
-                elif '..SOSI-NIVÅ' in line:
-                    sosi_nivå_present = True
-                elif '...VERT-DATUM' in line:
-                    vert_datum_present = True
-                    if 'NN2000' not in line and not line.strip().endswith('...VERT-DATUM'):
-                        continue  # Keep the line as is if it has a different value
-                
-                head_section.append(line)
+    for line in lines:
+        if '.HODE' in line:
+            in_head = True
+        if in_head:
+            if '..SOSI-VERSJON' in line:
+                sosi_versjon_present = True
+                if '5.0' not in line:
+                    line = '..SOSI-VERSJON 5.0\n'
+            elif '..SOSI-NIVÅ' in line:
+                sosi_nivå_present = True
+            elif '...VERT-DATUM' in line:
+                vert_datum_present = True
+            if '..TRANSPAR' in line:
+                in_head = False
+                if not vert_datum_present:
+                    line += '...VERT-DATUM NN2000\n'
+        modified_lines.append(line)
 
-                if '..TRANSPAR' in line:
-                    if not vert_datum_present:
-                        head_section.append('...VERT-DATUM NN2000\n')
-                    in_head = False  # End of .HEAD section
+    if not sosi_versjon_present:
+        modified_lines.insert(1, '..SOSI-VERSJON 5.0\n')
+    if not sosi_nivå_present:
+        modified_lines.insert(2, '..SOSI-NIVÅ 3\n')
 
-            else:
-                outfile.write(line)
+    return modified_lines
 
-        if not sosi_versjon_present:
-            head_section.insert(1, '..SOSI-VERSJON 5.0\n')
-        if not sosi_nivå_present:
-            head_section.insert(1, '..SOSI-NIVÅ 3\n')
-        head_section.insert(1, '..OBJEKTKATALOG FKBLEDNING 5.0\n')
-
-        # Write the modified head section and the rest of the file
-        for line in head_section:
-            outfile.write(line)
-
-with open(input_file_path, 'r', encoding='utf-8') as input_file, open(output_file_path, 'w', encoding='utf-8') as output_file:
-    object_buffer = []  
-    for line in input_file:
-        if ".KURVE" in line or ".PUNKT" in line:  
-            process_and_write_object_buffer(object_buffer, output_file)
-            object_buffer = []  
-        
+def apply_mappings_and_filter(lines, mappings, unwanted_attributes):
+    processed_lines = []
+    for line in lines:
         if not is_line_unwanted(line, unwanted_attributes):
-            translated_line = translate_line(line, mappings)
-            object_buffer.append(translated_line) 
+            line = translate_line(line, mappings)
+            processed_lines.append(line)
+    return processed_lines
 
-    process_and_write_object_buffer(object_buffer, output_file)
+def modify_and_process_file(input_file_path, output_file_path, mappings, unwanted_attributes):
+    with open(input_file_path, 'r', encoding='utf-8') as input_file:
+        lines = input_file.readlines()
 
-print("Omkoding har blitt skrevet til:", output_file_path)
+    # Modify the .HODE section first
+    modified_lines = read_and_modify_head_section(lines)
+
+    # Then apply mappings and filter unwanted attributes for the entire file
+    final_lines = apply_mappings_and_filter(modified_lines, mappings, unwanted_attributes)
+
+    with open(output_file_path, 'w', encoding='utf-8') as output_file:
+        for line in final_lines:
+            output_file.write(line)
+
+modify_and_process_file(input_file_path, output_file_path, mappings, unwanted_attributes)
+print("Omkodet egenskaper skrevet til: ", output_file_path)
