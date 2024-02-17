@@ -182,57 +182,84 @@ def insert_new_attributes_under_objects(lines, new_attributes):
     return modified_lines
 
 '''Legger på dummy kvalitetsverdier på objekter som mangler ..KVALITET'''
-'''Legger på dummy kvalitetsverdier på objekter som mangler ..KVALITET'''
 def missing_kvalitet(lines):
-    modified_lines = []  
-    current_object_lines = [] 
-    kvalitet_present = False  
-    processing_object = False  
+    modified_lines = []
+    current_object_lines = []
+    kvalitet_present = False
 
     for line in lines:
         if line.strip().startswith('.PUNKT') or line.strip().startswith('.KURVE'):
-            if processing_object and not kvalitet_present:
-                kvalitet_section = [
-                    "..KVALITET\n",
-                    "...DATAFANGSTMETODE dig\n",
-                    "...NØYAKTIGHET 200\n",
-                    "...DATAFANGSTMETODEHØYDE gen\n",
-                    "...H-NØYAKTIGHET 200\n"
-                ]
-                objtype_index = next((i for i, line in enumerate(current_object_lines) if '..OBJTYPE' in line), None)
-                if objtype_index is not None:
-                    current_object_lines[objtype_index+1:objtype_index+1] = kvalitet_section
-                kvalitet_present = False
+            if current_object_lines and not kvalitet_present:
+                insert_kvalitet_section(current_object_lines)
+            if current_object_lines:
+                modified_lines.extend(current_object_lines)
+            current_object_lines = [line]
+            kvalitet_present = False  
+        else:
+            if '..KVALITET' in line:
+                kvalitet_present = True
+            current_object_lines.append(line)
 
-            if current_object_lines:  
-                modified_lines.extend(current_object_lines)  
-                current_object_lines = []  
-            
-            processing_object = True  
-
-        if not processing_object:
-            modified_lines.append(line)
-            continue
-
-        if '..KVALITET' in line:
-            kvalitet_present = True
-
-        current_object_lines.append(line)
-
-    if processing_object and not kvalitet_present:
-        kvalitet_section = [
-            "..KVALITET\n",
-            "...DATAFANGSTMETODE dig\n",
-            "...NØYAKTIGHET 200\n",
-            "...DATAFANGSTMETODEHØYDE gen\n",
-            "...H-NØYAKTIGHET 200\n"
-        ]
-        objtype_index = next((i for i, line in enumerate(current_object_lines) if '..OBJTYPE' in line), None)
-        if objtype_index is not None:
-            current_object_lines[objtype_index+1:objtype_index+1] = kvalitet_section
-        modified_lines.extend(current_object_lines)  
+    if current_object_lines and not kvalitet_present:
+        insert_kvalitet_section(current_object_lines)
+    modified_lines.extend(current_object_lines)  
 
     return modified_lines
+
+def insert_kvalitet_section(object_lines):
+    kvalitet_section = [
+        "..KVALITET\n",
+        "...DATAFANGSTMETODE dig\n",
+        "...NØYAKTIGHET 200\n",
+        "...DATAFANGSTMETODEHØYDE gen\n",
+        "...H-NØYAKTIGHET 200\n",
+        "...SYNBARHET 0\n"
+    ]
+    objtype_index = next((i for i, line in enumerate(object_lines) if '..OBJTYPE' in line), None)
+    if objtype_index is not None:
+        object_lines[objtype_index+1:objtype_index+1] = kvalitet_section
+
+'''Sjekker om master har ..BELYSNING. Hvis ikke legger den på ..BELYSNING NEI'''
+def ensure_belysning_for_masts(lines):
+    modified_lines = []
+    current_object_lines = []
+    is_mast = False
+    belysning_present = False
+
+    for line in lines:
+        if line.strip().startswith('.PUNKT'):
+            if current_object_lines:
+                if is_mast and not belysning_present:
+                    for i, obj_line in enumerate(current_object_lines):
+                        if '..OBJTYPE Mast' in obj_line:
+                            current_object_lines.insert(i + 1, "..BELYSNING NEI\n")
+                            break
+                modified_lines.extend(current_object_lines)
+                
+            current_object_lines = [line]
+            is_mast = '..OBJTYPE Mast' in line
+            belysning_present = False
+        else:
+            if '..OBJTYPE Mast' in line:
+                is_mast = True
+            if '..BELYSNING' in line:
+                belysning_present = True
+            current_object_lines.append(line)
+
+    if current_object_lines and is_mast and not belysning_present:
+        for i, obj_line in enumerate(current_object_lines):
+            if '..OBJTYPE Mast' in obj_line:
+                current_object_lines.insert(i + 1, "..BELYSNING NEI\n")
+                break
+    modified_lines.extend(current_object_lines)
+
+    return modified_lines
+
+def insert_belysning_section(object_lines):
+    belysning_line = "..BELYSNING NEI\n"
+    objtype_index = next((i for i, line in enumerate(object_lines) if '..OBJTYPE Mast' in line), None)
+    if objtype_index is not None:
+        object_lines.insert(objtype_index + 1, belysning_line)
 
 
 '''Mainfunksjonen til scriptet som utfører alle funksjonene og skriver det til en ny fil ved navn NRL_avvik_omkodet.sos'''
@@ -246,6 +273,7 @@ def modify_and_process_file(input_file_path, output_file_path, mappings, unwante
     modified_lines = convert_and_shorten_registreringsdato(modified_lines)
     modified_lines = insert_new_attributes_under_objects(modified_lines, new_attributes)
     modified_lines = missing_kvalitet(modified_lines)
+    modified_lines = ensure_belysning_for_masts(modified_lines) 
 
     '''Sørger for at fila alltid slutter med linjen .SLUTT'''
     if modified_lines[-1].strip() != ".SLUTT":
@@ -254,7 +282,7 @@ def modify_and_process_file(input_file_path, output_file_path, mappings, unwante
 
     with open(output_file_path, 'w', encoding='utf-8') as output_file:
         for line in modified_lines:
-            output_file.write(line + '\n')  
+            output_file.write(line)
 
 modify_and_process_file(input_file_path, output_file_path, mappings, unwanted_attributes, new_attributes)
 print("Omkodet egenskaper skrevet til:", output_file_path)
